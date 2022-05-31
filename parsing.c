@@ -4,13 +4,14 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "../libft_42/libft.h"
+#include "libft_42/libft.h"
 #include "so_long.h"
 int extention_check(char **av,char *extention)
 {
     int i;
     int j;
     
+    j = 0;
     i = sizeof(av[1]);
      i = i - 5;
      while (av[1][i])
