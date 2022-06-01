@@ -7,15 +7,17 @@ AR			=	ar rcs
 RM			=	rm -f
 
 MLX_DIR		=	mlx_linux/
-LIBFT		=	libft_42/
+LIBFT		=	../libft_42/
 HEADER		=	so_long.h
 
-SRCS		=	so_long.c
+SRCS		=	so_long.c \
+				utils.c \
+				parsing.c
 
 OBJS		=	$(SRCS:.c=.o)
 
 %.o: %.c
-	$(CC) -Wall -Wextra -Werror -I/usr/include  -Imlx_linux -O3 -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -g3 -I/usr/include  -Imlx_linux -O3 -c $< -o $@
 
 $(NAME)		:	$(OBJS)
 	@make -C $(MLX_DIR)

@@ -4,7 +4,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "libft_42/libft.h"
+#include "../libft_42/libft.h"
 #include "so_long.h"
 int extention_check(char **av,char *extention)
 {
@@ -21,6 +21,7 @@ int extention_check(char **av,char *extention)
         i++;
         j++;
      }
+   
      return (1);
 }
 char **create_tab(char **av)
@@ -64,7 +65,7 @@ char **create_tab(char **av)
     printf("\nthe size of final = %ld\n",sizeof(final));
     return (final);
 }
-int check_size(char **done,t_map *check)
+int check_size(char **done,t_asset *check)
 {
     int i;
     int k;
@@ -115,34 +116,31 @@ int check_size(char **done,t_map *check)
     {
 
     }
-    printf("size of done [0] = %ld\n",ft_strlen((const char *)done[0]));
-    printf("e = %d c = %d p = %d\n",check -> E, check -> C, check -> P);
-    return(1);
+   if (check -> E != 1 && check -> C == 1 && check -> P == 1)
+    return(0);
+return(1);
 }
-int main(int ac, char **av)
+char **parsing(int ac, char **av)
 {
-    // int i;
-    // int j;
+
     char **done;
     char *extention;
-    t_map check;
+    t_asset check;
     check.E = 0;
     check.C = 0;
     check.P = 0;
     (void)ac;
     extention = ".ber";
     if (!extention_check(av,extention))
-        printf("Error\n");
+     {
+         printf("Error\n");
+         return(NULL);
+     }   
     done = create_tab(av);
-   if(check_size(done,&check))
-        printf("good\n");
-    if (check.E == 1)
-        printf("good having E\n");
-    if (check.C == 1)
-        printf("good having C\n");
-    if (check.P == 1)
-        printf("good having P\n");
-    // else
-    //     printf("bad\n");
-    // printf("ddddoonenee\n");
+   if(!check_size(done,&check))
+   {
+       printf("error size\n");
+       return(NULL);
+   }     
+    return(done);
 }
