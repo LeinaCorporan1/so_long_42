@@ -38,15 +38,18 @@ typedef struct s_map
     char    **data;
     int     p_i;
     int     p_j;
+    int     movement;
+    int     coins;
+    int     total_coins;
     t_img   img;
-    int movement;
+
 } t_map;
 
 int    init_map (t_map *map, int ac, char **av);
 void    init_img(t_map *map);
 
 int extention_check(char **av,char *extention);
-int create_tab(char **av);
+char **create_tab(char **av);
 int check_size(char **done,t_asset *check);
 char **parsing(int ac, char **av);
 int	init_window(t_map *map);

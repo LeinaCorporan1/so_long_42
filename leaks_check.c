@@ -49,12 +49,15 @@ char **create_tab(char **av)
     while (ret > 0)
     {
         ret = read(fd, buf, 1);
-        buf[ret] = '\0';;
+        buf[ret] = '\0';
         tab = ft_strjoin(tab, buf);
+        printf("\n\n    %d  %p \n\n",ret,buf);
+        free(buf);
     }
     ft_putstr_fd(tab,1);
     printf("\n");
     final = ft_split(tab,'\n');
+    free(tab);
     printf("my final\n");
     while (final[i])
     {
@@ -63,8 +66,8 @@ char **create_tab(char **av)
         i++;
     }
     printf("\nthe size of final = %ld\n",sizeof(final));
-    free(buf);
-    free(tab);
+    printf("add de buff = %p, add de tap  = %p ,add de final = %p",buf,tab,final);
+    
     return (final);
 }
 int check_size(char **done,t_asset *check)
@@ -122,7 +125,7 @@ int check_size(char **done,t_asset *check)
     return(0);
 return(1);
 }
-char **parsing(int ac, char **av)
+int main(int ac, char **av)
 {
 
     char **done;
@@ -136,13 +139,15 @@ char **parsing(int ac, char **av)
     if (!extention_check(av,extention))
      {
          printf("Error\n");
-         return(NULL);
+         return(0);
      }   
     done = create_tab(av);
    if(!check_size(done,&check))
    {
        printf("error size\n");
-       return(NULL);
-   }     
-    return(done);
+       return(0);
+   } 
+//    free(extention);
+   printf("add de done %p \n",done);
+    return(1);
 }
