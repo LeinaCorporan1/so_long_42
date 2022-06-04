@@ -49,7 +49,7 @@ char **create_tab(char **av)
     while (ret > 0)
     {
         ret = read(fd, buf, 1);
-        buf[ret] = '\0';;
+        buf[ret] = '\0';
         tab = ft_strjoin(tab, buf);
     }
     ft_putstr_fd(tab,1);
@@ -67,6 +67,10 @@ char **create_tab(char **av)
     free(tab);
     return (final);
 }
+
+
+
+
 int check_size(char **done,t_asset *check)
 {
     int i;
@@ -122,27 +126,25 @@ int check_size(char **done,t_asset *check)
     return(0);
 return(1);
 }
-char **parsing(int ac, char **av)
+int parsing(char **av, t_asset *check)
 {
 
-    char **done;
-    char *extention;
-    t_asset check;
-    check.E = 0;
-    check.C = 0;
-    check.P = 0;
-    (void)ac;
-    extention = ".ber";
-    if (!extention_check(av,extention))
+    // char **done;
+    // char *extention;
+    check -> E = 0;
+    check -> C = 0;
+    check -> P = 0;
+    // extention = ".ber";
+    if (!extention_check(av,EXTENSION))
      {
          printf("Error\n");
-         return(NULL);
+         return(0);
      }   
-    done = create_tab(av);
-   if(!check_size(done,&check))
-   {
-       printf("error size\n");
-       return(NULL);
-   }     
-    return(done);
+    // done = create_tab(av);
+//    if(!check_size(done,&check))
+//    {
+//        printf("error size\n");
+//        return(NULL);
+//    }     
+    return(1);
 }

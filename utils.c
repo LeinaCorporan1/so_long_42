@@ -31,18 +31,18 @@ void    init_img(t_map *map)
 //     return (coins);
 // }
 
-int    init_map (t_map *map, int ac, char **av)
+int    init_map (t_map *map)
 {
     map -> img.height = SIZE;
     map -> img.width = SIZE;
     map -> movement = 0;
     map -> p_i = 0;
     map -> p_j = 0;
-    map -> data = parsing(ac,av);
+    map -> data = NULL;
     map -> coins = 0;
     map -> total_coins = 1;                            
-	if (map -> data == NULL)
-		return (0);
+	// if (map -> data == NULL)
+	// 	return (0);
     init_img(map);
     return (1);
 }

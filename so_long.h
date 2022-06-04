@@ -1,7 +1,14 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-#include<stdio.h>
+#include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <X11/keysym.h>
+# include <X11/X.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 #include "mlx_linux/mlx.h"
 #include "../libft_42/libft.h"
 
@@ -45,12 +52,13 @@ typedef struct s_map
 
 } t_map;
 
-int    init_map (t_map *map, int ac, char **av);
+int    init_map (t_map *map);
 void    init_img(t_map *map);
 
 int extention_check(char **av,char *extention);
 char **create_tab(char **av);
 int check_size(char **done,t_asset *check);
-char **parsing(int ac, char **av);
+int parsing(char **av,t_asset *check);
 int	init_window(t_map *map);
+int	destroy_win(t_map *map);
 #endif

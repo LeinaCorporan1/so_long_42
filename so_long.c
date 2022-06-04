@@ -70,12 +70,28 @@ int create_map(t_map *map)
 void move(t_map *map, int map_i, int map_j)
 {
 	char c;
-	
+
+	map -> movement +=1;
 	c = map -> data[map->p_i][map->p_j];
+	// if (map -> data[map_i][map_j] == 'E')
+	// {
+	// map -> data[map->p_i][map->p_j] = '0';
+	// map -> data[map_i][map_j] = c;	
+	// destroy_win(map);
+	// exit(0);
+	// }
 	if (map -> data[map_i][map_j] == 'C')
 		map -> coins += 1;
 	map -> data[map->p_i][map->p_j] = '0';
 	map -> data[map_i][map_j] = c;
+	// ft_putstr_fd("total fo movement = ");
+	ft_putnbr_fd(map -> movement, 1);
+	ft_putstr_fd("\n",1);
+	// if (map -> data[map_i][map_j] == 'E')
+	// {
+	// 	destroy_win(map);
+	// 	exit(0);
+	// }	
 }
 
 int	check_move(t_map *map, int map_i, int map_j)
@@ -96,6 +112,20 @@ void	destroy_image(t_map *map)
 	mlx_destroy_image(map -> mlx, map -> img.tiles);
 }
 
+int	destroy_win(t_map *map)
+{
+		destroy_image(map);
+		mlx_clear_window(map -> mlx, map -> win);
+		mlx_destroy_window(map -> mlx, map -> win);
+		mlx_destroy_display(map -> mlx);
+		map -> mlx = NULL;
+		free(map->mlx);	
+			ft_free(map -> data);
+		exit(0);
+		return (0);
+}
+
+
 int	key_hook(int key_code,t_map *map)
 {
 
@@ -106,12 +136,7 @@ int	key_hook(int key_code,t_map *map)
 	map_j = map -> p_j;
 	if (key_code == 65307)
 	{
-		destroy_image(map);
-		mlx_clear_window(map -> mlx, map -> win);
-		mlx_destroy_window(map -> mlx, map -> win);
-		mlx_destroy_display(map -> mlx);
-		map -> mlx = NULL;
-		free(map->mlx);
+		destroy_win(map);
 		exit(0);
 		// ft_free(map->data);
 		return (0);
@@ -127,22 +152,38 @@ int	key_hook(int key_code,t_map *map)
 	if (check_move(map, map_i, map_j))
 		move(map, map_i, map_j);
 	create_map(map);
+	// printf(" address of my map at each movement %p\n", map -> data);
 	return (0);
 }
 
 int	main(int ac, char **av)
 {
 	t_map map;
+	t_asset check;
 
+	(void) ac;
 	if (!init_window(&map))
 		return (0);
-	init_map(&map,ac,av);
-	create_map(&map);
+	init_map(&map);
+	if (parsing(av, &check))
+	{
+		map.data = create_tab(av);
+	if(!check_size(map.data,&check))
+   {
+       printf("error size\n");
+	   ft_free(map.data);
+       return(0);
+   }
+	}
+	else
+		return (0);
+   	create_map(&map);
+	printf(" address of my map befor hookes %p\n", map.data);
 	mlx_key_hook(map.win,&key_hook,&map);
+	mlx_hook(map.win, ClientMessage, LeaveWindowMask,
+		&destroy_win, &map);
 	mlx_loop(map.mlx);
-	// destroy_image(&map);
 	printf("sortie loop\n");
-	// free(map.mlx);
-	ft_free(map.data);
+	// ft_free(map.data);
 	return (0);
 }
