@@ -31,14 +31,14 @@ void    init_img(t_map *map)
 //     return (coins);
 // }
 
-int    init_map (t_map *map)
+int    init_map (t_map *map, char **tab)
 {
     map -> img.height = SIZE;
     map -> img.width = SIZE;
     map -> movement = 0;
     map -> p_i = 0;
     map -> p_j = 0;
-    map -> data = NULL;
+    map -> data = tab;
     map -> coins = 0;
     map -> total_coins = 1;                            
 	// if (map -> data == NULL)

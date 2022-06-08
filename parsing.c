@@ -6,14 +6,55 @@
 #include <stdlib.h>
 #include "../libft_42/libft.h"
 #include "so_long.h"
+
+
+char	*ft_strjoin_sl(char *s1, char const *s2)
+{
+	size_t	j;
+	char	*res;
+    int i;
+
+    i = 0;
+	j = 0;
+	if (!s1)
+		return ((char *)s2);
+	if (!s2)
+		return ((char *)s1);
+	res = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!res)
+		return (NULL);
+	while (s1[i])
+	{
+		res[j] = s1[i];
+		i++;
+		j++;
+	}
+    // res = ft_strnstr(res,s1,ft_strlen(s1));
+    // printf("my char = %s\n",res);
+    i = 0;
+	while (s2[i])
+	{
+		res[j] = s2[i];
+		i++;
+		j++;
+	}
+    free(s1);
+	res[j] = '\0';
+	return (res);
+}
+
 int extention_check(char **av,char *extention)
 {
     int i;
     int j;
     
     j = 0;
-    i = sizeof(av[1]);
-     i = i - 5;
+    
+    i = ft_strlen(av[1]);
+    // printf("my i dans extensioncheck %d\n",i);
+     i = i - ft_strlen(extention);
+     if (i == 0)
+     return (0);
      while (av[1][i])
      {
          if ( av[1][i] != extention[j])
@@ -21,9 +62,9 @@ int extention_check(char **av,char *extention)
         i++;
         j++;
      }
-   
      return (1);
 }
+
 char **create_tab(char **av)
 {
     char *tab;
@@ -37,24 +78,40 @@ char **create_tab(char **av)
     fd  = open(av[1], O_RDONLY);
 	if (fd == -1)
         return (NULL);
-    tab = (char *)malloc(sizeof(char ) * 2);
-    if (!tab)
-        return (NULL);
+   // tab = (char *)malloc(sizeof(char ) * 2);
+   // if (!tab)
+     //   return (NULL);
+
+
+     tab = NULL;
     buf = (char *)malloc(sizeof(char ) * 2);
     if (!buf)
         return (NULL);
-    ret = read(fd, tab, 1);
-    tab[ret] = '\0';
+    ret = read(fd, buf, 1);
+    if (ret >= 0)
+        buf[ret] = '\0';
     ft_putstr_fd(tab,1);
     while (ret > 0)
     {
+        if (tab == NULL)
+            tab = ft_strdup(buf);
+        else
+            tab = ft_strjoin_sl(tab, buf);
         ret = read(fd, buf, 1);
-        buf[ret] = '\0';
-        tab = ft_strjoin(tab, buf);
+        if (ret >= 0)
+            buf[ret] = '\0';
     }
     ft_putstr_fd(tab,1);
     printf("\n");
+
+    // buf = get_next_line()
     final = ft_split(tab,'\n');
+    if (final == NULL)
+    {
+        // free(tab);
+        free(buf);
+        return (NULL);
+    }
     printf("my final\n");
     while (final[i])
     {
@@ -106,6 +163,8 @@ int check_size(char **done,t_asset *check)
         k = 0;
         while (done[i][k])
         {
+            if (done[i][k] == 'P' && check -> P == 1)
+                done[i][k] = '0';
             if (done[i][k] == 'E')
                 check -> E = 1;
             if (done[i][k] == 'C')

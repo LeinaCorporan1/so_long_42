@@ -52,13 +52,13 @@ typedef struct s_map
 
 } t_map;
 
-int    init_map (t_map *map);
+int    init_map (t_map *map, char ** tab);
 void    init_img(t_map *map);
 
 int extention_check(char **av,char *extention);
 char **create_tab(char **av);
 int check_size(char **done,t_asset *check);
 int parsing(char **av,t_asset *check);
-int	init_window(t_map *map);
+int	init_window(t_map *map, char **tab);
 int	destroy_win(t_map *map);
 #endif

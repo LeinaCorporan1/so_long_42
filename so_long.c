@@ -2,6 +2,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+int	line(char ** tab)
+{
+	int i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
 void	ft_free(char **data)
 {
 	size_t	i;
@@ -17,12 +27,12 @@ void	ft_free(char **data)
 	data = NULL;
 	return ;
 }
-int	init_window(t_map *map)
+int	init_window(t_map *map, char ** tab)
 {
 	map -> mlx = mlx_init();
 	if (map -> mlx == NULL)
 		return (0);
-	map -> win = mlx_new_window(map->mlx, 1920, 1080, "Hey Molly!");
+	map -> win = mlx_new_window(map->mlx,ft_strlen(tab[1]) * 32  + 1, line(tab) * 32 + 1, "Hey Molly!");
 	if (map->win == NULL)
 		return (0);
 	return (1);
@@ -72,21 +82,22 @@ void move(t_map *map, int map_i, int map_j)
 	char c;
 
 	map -> movement +=1;
+	ft_putnbr_fd(map -> movement, 1);
+	ft_putstr_fd("\n",1);
 	c = map -> data[map->p_i][map->p_j];
-	// if (map -> data[map_i][map_j] == 'E')
-	// {
+	if (map -> data[map_i][map_j] == 'E')
+	{
 	// map -> data[map->p_i][map->p_j] = '0';
 	// map -> data[map_i][map_j] = c;	
-	// destroy_win(map);
-	// exit(0);
-	// }
+	destroy_win(map);
+	exit(0);
+	}
 	if (map -> data[map_i][map_j] == 'C')
 		map -> coins += 1;
 	map -> data[map->p_i][map->p_j] = '0';
 	map -> data[map_i][map_j] = c;
 	// ft_putstr_fd("total fo movement = ");
-	ft_putnbr_fd(map -> movement, 1);
-	ft_putstr_fd("\n",1);
+	
 	// if (map -> data[map_i][map_j] == 'E')
 	// {
 	// 	destroy_win(map);
@@ -117,10 +128,12 @@ int	destroy_win(t_map *map)
 		destroy_image(map);
 		mlx_clear_window(map -> mlx, map -> win);
 		mlx_destroy_window(map -> mlx, map -> win);
-		mlx_destroy_display(map -> mlx);
-		map -> mlx = NULL;
+		map -> win = NULL;
+		mlx_destroy_display(map -> mlx); 
+		free(map -> win);
 		free(map->mlx);	
-			ft_free(map -> data);
+		ft_free(map -> data);
+		
 		exit(0);
 		return (0);
 }
@@ -156,34 +169,37 @@ int	key_hook(int key_code,t_map *map)
 	return (0);
 }
 
+
+
 int	main(int ac, char **av)
 {
 	t_map map;
 	t_asset check;
+	char **tab;
 
-	(void) ac;
-	if (!init_window(&map))
+	if (ac == 1)
 		return (0);
-	init_map(&map);
 	if (parsing(av, &check))
 	{
-		map.data = create_tab(av);
-	if(!check_size(map.data,&check))
-   {
-       printf("error size\n");
-	   ft_free(map.data);
-       return(0);
-   }
+		tab = create_tab(av);
+		if (!tab)
+			return (0);
+		if(!check_size(tab, &check))
+  	 {
+      	 printf("Error size\n");
+	 	  ft_free(tab);
+       	return(0);
+  	 }
+	if (!init_window(&map, tab))
+		return (0);
+	init_map(&map, tab);
 	}
 	else
 		return (0);
    	create_map(&map);
-	printf(" address of my map befor hookes %p\n", map.data);
 	mlx_key_hook(map.win,&key_hook,&map);
 	mlx_hook(map.win, ClientMessage, LeaveWindowMask,
 		&destroy_win, &map);
 	mlx_loop(map.mlx);
-	printf("sortie loop\n");
-	// ft_free(map.data);
 	return (0);
 }

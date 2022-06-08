@@ -12,7 +12,8 @@ HEADER		=	so_long.h
 
 SRCS		=	so_long.c \
 				utils.c \
-				parsing.c
+				parsing.c \
+
 
 OBJS		=	$(SRCS:.c=.o)
 
