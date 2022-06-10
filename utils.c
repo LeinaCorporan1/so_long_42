@@ -1,23 +1,5 @@
 #include "so_long.h"
 
-int    init_img(t_map *map)
-{
-    map -> img.wall = mlx_xpm_file_to_image(map -> mlx, WALL,
-     &map->img.width, &map->img.height);
-    map -> img.coin = mlx_xpm_file_to_image(map -> mlx, COIN,
-     &map->img.width, &map->img.height);
-    map -> img.exit = mlx_xpm_file_to_image(map -> mlx, EXIT,
-     &map->img.width, &map->img.height);
-    map -> img.player = mlx_xpm_file_to_image(map -> mlx, PLAYER,
-     &map->img.width, &map->img.height);
-    map -> img.tiles = mlx_xpm_file_to_image(map -> mlx, TILES,
-     &map->img.width, &map->img.height);
-    if (!map -> img.wall || !map -> img.coin || !map -> img.exit ||
-     !map -> img.player || !map -> img.tiles)
-        return (0);
-    return (1);
-}
-
 int count_coins(char **tab)
 {
     int i;
@@ -40,16 +22,53 @@ int count_coins(char **tab)
     return (coins);
 }
 
-int    init_map (t_map *map)
+int	extend(char ** tab)
 {
-    map -> img.height = SIZE;
-    map -> img.width = SIZE;
-    map -> movement = 0;
-    map -> p_i = 0;
-    map -> p_j = 0;
-    map -> coins = 0;
-    map -> total_coins = count_coins(map -> data);                            
-	if (!init_img(map)) /*put msg of no img here*/
-        return (0);
-    return (1);
+	int i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+void	ft_free(char **data)
+{
+	size_t	i;
+
+	i = 0;
+	while (data[i])
+	{
+		
+		free(data[i]);
+		i++;
+	}
+	free(data);
+	data = NULL;
+	return ;
+}
+
+char	*ft_strjoin_sl(char *s1, char const *s2)
+{
+	size_t	j;
+	char	*res;
+    int i;
+
+    i = 0;
+	if (!s1 || !s2)
+		return (0);
+	res = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!res)
+		return (NULL);
+    res = ft_memcpy(res, s1, ft_strlen(s1) + 1);
+    j = ft_strlen(res);
+	while (s2[i])
+	{
+		res[j] = s2[i];
+		i++;
+		j++;
+	}
+    free(s1);
+	res[j] = '\0';
+	return (res);
 }

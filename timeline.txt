@@ -1,8 +1,0 @@
-31/05  42 4h30
-Makefile
-ouverture d'une fenetre noir et qui se ferme avec ctrl-c
-creation de mes images
-liste d'action pour faire connecter mes images
-
-01/05 42
-

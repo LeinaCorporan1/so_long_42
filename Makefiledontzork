@@ -22,11 +22,12 @@ SRCS		=	so_long.c \
 OBJS		=	$(SRCS:.c=.o)
 
 %.o: %.c
-	$(CC) -Wall -Wextra -Werror -g3 -I/usr/include  -Imlx_linux -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -g3 -I/usr/include  -Imlx_linux -O3 -c $< -o $@
 
 $(NAME)		:	$(OBJS)
 	@make -C $(MLX_DIR)
 	@make -C $(LIBFT)
+	@make -C $(PRINTF)
 	@$(CC) -o $(NAME) $(OBJS) -L$(MLX_DIR)  -L$(LIBFT) -lft -Imlx_linux -lmlx -lXext -lX11 -lm -lz
 all			:	$(NAME)
 

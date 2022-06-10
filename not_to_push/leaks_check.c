@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include "../libft_42/libft.h"
 #include "so_long.h"
+
 int extention_check(char **av,char *extention)
 {
     int i;
