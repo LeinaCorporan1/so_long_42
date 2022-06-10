@@ -13,18 +13,19 @@
 #include "../libft_42/libft.h"
 
 
-# define PLAYER "imageso/player.xpm"
-# define COIN "imageso/coin.xpm"
-# define EXIT "imageso/exit.xpm"
-# define TILES "imageso/tiles.xpm"
-# define WALL "imageso/wall.xpm"
-# define SIZE 32
+# define PLAYER "img/player.xpm"
+# define COIN "img/coin.xpm"
+# define EXIT "img/exit.xpm"
+# define TILES "img/tiles.xpm"
+# define WALL "img/wall.xpm"
+# define SIZE 128
 # define EXTENSION  ".ber"
 typedef struct s_asset
 {
     int E;
     int C;
     int P;
+    int LINE;
 } t_asset;
 
 typedef struct s_img
@@ -52,13 +53,14 @@ typedef struct s_map
 
 } t_map;
 
-int    init_map (t_map *map, char ** tab);
-void    init_img(t_map *map);
+int    init_map (t_map *map);
+int    init_img(t_map *map);
 
 int extention_check(char **av,char *extention);
-char **create_tab(char **av);
-int check_size(char **done,t_asset *check);
-int parsing(char **av,t_asset *check);
+char **create_tab(char **av, char **final);
+int check_map(char **tab,t_asset *check);
+// int parsing(char **av,t_asset *check);
 int	init_window(t_map *map, char **tab);
 int	destroy_win(t_map *map);
+void	ft_free(char **data);
 #endif
