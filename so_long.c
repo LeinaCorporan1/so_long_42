@@ -14,20 +14,20 @@
 
 void move(t_map *map, int map_i, int map_j)
 {
-	char c;
+	char	c;
 
 	map -> movement +=1;
 	move_msg(map -> movement);
-	c = map -> data[map->p_i][map->p_j];
+	c = map -> data[map -> p_i][map -> p_j];
 	if (map -> data[map_i][map_j] == 'E')
-	{	
+	{
 		destroy_win(map);
 		exit(0);
 	}
 	if (map -> data[map_i][map_j] == 'C')
 		map -> coins += 1;
-	map -> data[map->p_i][map->p_j] = '0';
-	map -> data[map_i][map_j] = c;	
+	map -> data[map -> p_i][map -> p_j] = '0';
+	map -> data[map_i][map_j] = c;
 }
 
 int	check_move(t_map *map, int map_i, int map_j)
@@ -44,8 +44,8 @@ int	check_move(t_map *map, int map_i, int map_j)
 
 int	key_hook(int key_code,t_map *map)
 {
-	int map_i;
-	int map_j;
+	int	map_i;
+	int	map_j;
 
 	map_i = map -> p_i;
 	map_j = map -> p_j;
@@ -67,23 +67,22 @@ int	key_hook(int key_code,t_map *map)
 
 int	main(int ac, char **av)
 {
-	t_map map;
-	t_asset check;
+	t_map	map;
+	t_asset	check;
 
 	map.data = NULL;
 	if (ac == 1)
-		return (0);		
+		return (0);
 	if (!check_error(av, &check, &map))
 		return (0);
 	if (!init_window(&map, map.data))
 		return (0);
 	if (!init_map(&map))
 			destroy_win(&map);
-   	create_map(&map);
+	create_map(&map);
 	mlx_key_hook(map.win,&key_hook,&map);
 	mlx_hook(map.win, ClientMessage, LeaveWindowMask,
 		&destroy_win, &map);
 	mlx_loop(map.mlx);
-	// destroy_win(&map);
 	return (0);
 }

@@ -32,11 +32,10 @@ int	destroy_win(t_map *map)
 		mlx_clear_window(map -> mlx, map -> win);
 		mlx_destroy_window(map -> mlx, map -> win);
 		map -> win = NULL;
-		mlx_destroy_display(map -> mlx); 
+		mlx_destroy_display(map -> mlx);
 		free(map -> win);
-		free(map->mlx);	
+		free(map->mlx);
 		ft_free(map -> data);
-		
 		exit(0);
 		return (0);
 }
