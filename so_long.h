@@ -29,15 +29,16 @@
 # define TILES "img_xpm/tile.xpm"
 # define WALL "img_xpm/wall.xpm"
 # define SIZE 64
-# define EXTENSION  ".ber"
+# define EXTENSION ".ber"
 
 typedef struct s_asset
 {
-	int	E;
-	int	C;
-	int	P;
-	int	LINE;
-	int	RECT;
+	int	e;
+	int	c;
+	int	p;
+	int	line;
+	int	rect;
+	int	img;
 }	t_asset;
 
 typedef struct s_img
@@ -49,7 +50,7 @@ typedef struct s_img
 	void	*exit;
 	int		height;
 	int		width;
-} t_img;
+}	t_img;
 
 typedef struct s_map
 {
@@ -63,13 +64,13 @@ typedef struct s_map
 	int		total_coins;
 	t_img	img;
 
-} t_map;
+}	t_map;
 
 /*init.c*/
 
-int	init_img(t_map *map);
-int	init_map (t_map *map);
-int	init_window(t_map *map, char ** tab);
+int		init_img(t_map *map);
+int		init_map(t_map *map, t_asset *check);
+int		init_window(t_map *map, char **tab);
 
 /*parsing.c*/
 
@@ -88,18 +89,18 @@ int		check_error(char **av, t_asset *check, t_map *map);
 /*destroy.c*/
 
 void	destroy_image(t_map *map);
-int	destroy_win(t_map *map);
+int		destroy_win(t_map *map);
 
 /*so_long.c*/
 
-void move(t_map *map, int map_i, int map_j);
-int	check_move(t_map *map, int map_i, int map_j);
-int	key_hook(int key_code,t_map *map);
+void	move(t_map *map, int map_i, int map_j);
+int		check_move(t_map *map, int map_i, int map_j);
+int		key_hook(int key_code, t_map *map);
 
 /*utils*/
 
 int		count_coins(char **tab);
-int		extend(char ** tab);
+int		tab_len(char **tab);
 void	ft_free(char **data);
 char	*ft_strjoin_sl(char *s1, char const *s2);
 

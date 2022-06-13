@@ -12,10 +12,10 @@
 
 #include "so_long.h"
 
-char *insert_tab(char *tab, char *buf, int ret, int fd)
+char	*insert_tab(char *tab, char *buf, int ret, int fd)
 {
 	if (ret <= 0)
-	free(buf);
+		free(buf);
 	while (ret > 0)
 	{
 		if (tab == NULL)
@@ -37,7 +37,7 @@ char *insert_tab(char *tab, char *buf, int ret, int fd)
 	return (tab);
 }
 
-char **create_tab(char **av, char **final)
+char	**create_tab(char **av, char **final)
 {
 	char	*tab;
 	char	*buf;
@@ -45,7 +45,7 @@ char **create_tab(char **av, char **final)
 	int		fd;
 
 	tab = NULL;
-	fd  = open(av[1], O_RDONLY);
+	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		return (NULL);
 	buf = (char *)malloc(sizeof(char ) * 2);
@@ -60,38 +60,38 @@ char **create_tab(char **av, char **final)
 		free(tab);
 		return (NULL);
 	}
-	final = ft_split(tab,'\n');
+	final = ft_split(tab, '\n');
 	free(buf);
 	free(tab);
 	return (final);
 }
 
-void import_img(t_map *map, int i, int j)
+void	import_img(t_map *map, int i, int j)
 {
 	if (map -> data[i][j] == '1')
-	mlx_put_image_to_window(map -> mlx, map -> win,
-	 map -> img.wall, j * SIZE, i * SIZE);
+		mlx_put_image_to_window(map -> mlx, map -> win,
+			map -> img.wall, j * SIZE, i * SIZE);
 	if (map -> data[i][j] == '0')
-	mlx_put_image_to_window(map -> mlx, map -> win,
-	 map -> img.tiles, j * SIZE, i * SIZE);
+		mlx_put_image_to_window(map -> mlx, map -> win,
+			map -> img.tiles, j * SIZE, i * SIZE);
 	if (map -> data[i][j] == 'C')
-	mlx_put_image_to_window(map -> mlx, map -> win,
-	 map -> img.coin, j * SIZE, i * SIZE);
+		mlx_put_image_to_window(map -> mlx, map -> win,
+			map -> img.coin, j * SIZE, i * SIZE);
 	if (map -> data[i][j] == 'E')
-	mlx_put_image_to_window(map -> mlx, map -> win,
-	 map -> img.exit, j * SIZE, i * SIZE);
+		mlx_put_image_to_window(map -> mlx, map -> win,
+			map -> img.exit, j * SIZE, i * SIZE);
 	if (map -> data[i][j] == 'P')
 	{
 		map -> p_i = i;
 		map -> p_j = j;
 		mlx_put_image_to_window(map -> mlx, map -> win,
-		 map -> img.player, j * SIZE, i * SIZE);
+			map -> img.player, j * SIZE, i * SIZE);
 	}
 }
 
-int create_map(t_map *map)
+int	create_map(t_map *map)
 {
-	int i;
+	int	i;
 	int	j;
 
 	i = 0;

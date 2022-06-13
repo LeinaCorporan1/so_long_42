@@ -12,11 +12,11 @@
 
 #include "so_long.h"
 
-int count_coins(char **tab)
+int	count_coins(char **tab)
 {
-	int i;
-	int j;
-	int coins;
+	int	i;
+	int	j;
+	int	coins;
 
 	i = 0;
 	coins = 0;
@@ -34,9 +34,9 @@ int count_coins(char **tab)
 	return (coins);
 }
 
-int	extend(char **tab)
+int	tab_len(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tab[i])
@@ -63,7 +63,7 @@ char	*ft_strjoin_sl(char *s1, char const *s2)
 {
 	size_t	j;
 	char	*res;
-	int i;
+	int		i;
 
 	i = 0;
 	if (!s1 || !s2)

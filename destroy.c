@@ -28,14 +28,14 @@ void	destroy_image(t_map *map)
 
 int	destroy_win(t_map *map)
 {
-		destroy_image(map);
-		mlx_clear_window(map -> mlx, map -> win);
-		mlx_destroy_window(map -> mlx, map -> win);
-		map -> win = NULL;
-		mlx_destroy_display(map -> mlx);
-		free(map -> win);
-		free(map->mlx);
-		ft_free(map -> data);
-		exit(0);
-		return (0);
+	destroy_image(map);
+	mlx_clear_window(map -> mlx, map -> win);
+	mlx_destroy_window(map -> mlx, map -> win);
+	map -> win = NULL;
+	mlx_destroy_display(map -> mlx);
+	free(map -> win);
+	free(map->mlx);
+	ft_free(map -> data);
+	exit(0);
+	return (0);
 }
