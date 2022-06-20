@@ -71,7 +71,7 @@ int	main(int ac, char **av)
 	t_asset	check;
 
 	map.data = NULL;
-	if (ac == 1)
+	if (ac != 2)
 		return (0);
 	if (!check_error(av, &check, &map))
 		return (0);

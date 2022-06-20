@@ -32,7 +32,7 @@ void	error_map(t_asset	*check)
 void	error_extension(void)
 {
 	ft_putstr_fd("Error\n", 1);
-	ft_putstr_fd ("The map name is not valid !\n", 1);
+	ft_putstr_fd ("The map is not valid !\n", 1);
 }
 
 void	move_msg(int move)
