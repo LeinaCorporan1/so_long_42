@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../so_long.h"
 
 void	move(t_map *map, int map_i, int map_j)
 {
@@ -72,7 +72,10 @@ int	main(int ac, char **av)
 
 	map.data = NULL;
 	if (ac != 2)
+	{
+		ft_putstr_fd("Error\n", 1);
 		return (0);
+	}
 	if (!check_error(av, &check, &map))
 		return (0);
 	if (!init_window(&map, map.data))

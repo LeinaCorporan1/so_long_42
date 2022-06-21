@@ -21,7 +21,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include "mlx_linux/mlx.h"
-# include "../libft_42/libft.h"
+# include "libft/libft.h"
 
 # define PLAYER "img_xpm/player.xpm"
 # define COIN "img_xpm/coin.xpm"

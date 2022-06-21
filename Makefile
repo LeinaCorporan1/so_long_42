@@ -19,17 +19,16 @@ AR			=	ar rcs
 RM			=	rm -f
 
 MLX_DIR		=	mlx_linux/
-LIBFT		=	../libft_42/
-#PRINTF		=	../ft_printf/
+LIBFT		=	libft/
 HEADER		=	so_long.h
 
-SRCS		=	so_long.c \
-				utils.c \
-				parsing.c \
-				init.c \
-				destroy.c \
-				check_error.c \
-				msg.c
+SRCS		=	src/so_long.c \
+				src/utils.c \
+				src/parsing.c \
+				src/init.c \
+				src/destroy.c \
+				src/check_error.c \
+				src/msg.c
 
 OBJS		=	$(SRCS:.c=.o)
 
