@@ -66,6 +66,28 @@ typedef struct s_map
 
 }	t_map;
 
+typedef struct s_track
+{
+	struct s_track	*prev;
+	int		row;
+	int		column;
+	struct s_track *next;
+} t_track;
+
+typedef struct s_path
+{
+	int	exit_column;
+	int	exit_row;
+	int	pos_column;
+	int	pos_row;
+	int	coin_column;
+	int	coin_row;
+	int count_coins;
+	int	mov_column;
+	int	mov_row;
+	char	**data;
+}	t_path;
+
 /*init.c*/
 
 int		init_img(t_map *map);
@@ -84,7 +106,7 @@ int		create_map(t_map *map);
 int		extention_check(char **av, char *extention);
 char	**check_asset(char **tab, t_asset *check, int i, int k);
 int		check_map(char **tab, t_asset *check);
-int		check_error(char **av, t_asset *check, t_map *map);
+int		check_error(char **av, t_asset *check, t_map *map, t_path *path);
 
 /*destroy.c*/
 

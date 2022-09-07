@@ -69,14 +69,16 @@ int	main(int ac, char **av)
 {
 	t_map	map;
 	t_asset	check;
+	t_path	path;
 
 	map.data = NULL;
+	path.data = NULL;
 	if (ac != 2)
 	{
 		ft_putstr_fd("Error\n", 1);
 		return (0);
 	}
-	if (!check_error(av, &check, &map))
+	if (!check_error(av, &check, &map, &path))
 		return (0);
 	if (!init_window(&map, map.data))
 		return (0);
