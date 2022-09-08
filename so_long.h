@@ -39,6 +39,7 @@ typedef struct s_asset
 	int	line;
 	int	rect;
 	int	img;
+	int	path;
 }	t_asset;
 
 typedef struct s_img
@@ -82,7 +83,7 @@ typedef struct s_path
 	int	pos_row;
 	int	coin_column;
 	int	coin_row;
-	int count_coins;
+	int cnt_coins;
 	int	mov_column;
 	int	mov_row;
 	char	**data;

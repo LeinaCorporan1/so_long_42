@@ -26,7 +26,9 @@ void	error_map(t_asset	*check)
 	if (check -> rect == 0)
 		ft_putstr_fd ("The map is not a rectangular !\n", 1);
 	if (check -> img == 0)
-		ft_putstr_fd (" The map can not be created, the img is invalid ! \n", 1);
+		ft_putstr_fd ("The map can not be created, the img is invalid ! \n", 1);
+	if (check -> path == 1)
+		ft_putstr_fd ("my map is impossible !\n", 1);
 }
 
 void	error_extension(void)

@@ -13,20 +13,53 @@
 #include "../so_long.h"
 #include <stdio.h>
 
-void    print_lst(t_track *lst)
+void	free_lst(t_track **track)
 {
-    if (lst == NULL)
-        return ;
-    while (lst -> next != NULL)
-    {
-        printf("row = %d\n", lst -> row);
-        printf("column  = %d\n", lst -> column);
-        lst = lst -> next;
-    }
-        printf("row = %d\n", lst -> row);
-        printf("column  = %d\n", lst -> column);
-	printf("\n");
+	t_track	*del;
+	t_track	*tmp;
+
+	del = *track;
+	while (del != NULL)
+	{
+		tmp = del -> next;
+		free(del);
+		del = tmp;
+	}
 }
+
+// void	ft_printdbl(char **tmp, int r, int c)
+// {
+// 	int	i;
+// 	int	y;
+
+// 	i = 0;
+// 	while(tmp[i])
+// 	{
+// 		y = 0;
+// 		while(tmp[i][y])
+// 		{
+// 			if (i == r && y == c)
+// 				printf("\x1B[31m");
+// 			printf("%c  ",tmp[i][y] );
+// 			printf("\033[0;37m");
+// 			y++;
+// 		}
+// 		printf("\n");
+// 		i++;
+// 	}
+// }
+
+// void    print_lst(t_track *lst)
+// {
+// 	if (lst == NULL)
+// 		return ;
+// 	while (lst != NULL)
+// 	{
+// 		printf("row = %d column  = %d\n", lst -> row, lst -> column);
+// 		lst = lst -> next;
+// 	}
+// 	printf("\n");
+// }
 
 void	supp_track(t_track *track)
 {
@@ -45,18 +78,20 @@ void	supp_track(t_track *track)
 	track = new;
 }
 
-void	add_empty(t_track *track, int data_row, int data_column)
+t_track	*add_empty(t_track **track, int data_row, int data_column)
 {
 	t_track	*add;
 
-	if (track)
-		return ;
+	if (!track)
+		return NULL;
 	add = (t_track *)malloc(sizeof(t_track));
 	add->prev = NULL;
 	add->row = data_row;
 	add->column = data_column;
 	add->next = NULL;
-	track = add;
+	*track = add;
+	return (*track);
+
 }
 
 void add_track(t_track *track, int data_row, int data_column)
@@ -74,31 +109,6 @@ void add_track(t_track *track, int data_row, int data_column)
 		temp = temp -> next;
 	temp -> next = add;
 	add -> prev = temp;
-	track = temp;
-}
-
-int	 search_coin (t_path *path)
-{
-	int	i;
-	int	y;
-
-	i = 0;
-	while (path->data[i])
-	{
-		y = 0;
-		while (path->data[i][y])
-		{
-			if (path->data[i][y] == 'C')
-			{
-				path->coin_column = y;
-				path->coin_row = i;
-				return (1);
-			}
-			y++;
-		}
-		i++;
-	}
-	return (0);
 }
 
 void	init_path(t_path *path)
@@ -125,18 +135,18 @@ void	init_path(t_path *path)
 			y++;
 		}
 	}
-	path->count_coins = count_coins(path->data);
-	// path->mov_row = start_i;
-	// path->mov_column = start_j;
+	path->cnt_coins = count_coins(path->data);
 }
 
 int	valid(int row, int column, t_path *path)
 {
 	if (path->data[row][column] == '1')
 		return (0);
+	if (path->data[row][column] == 'V')
+		return (0);
 	if (path->data[row][column] == 'N')
 		return (0);
-	if (path->data[row][column] == 'E' && path->count_coins != 0)
+	if (path->data[row][column] == 'E' && path->cnt_coins != 0)
 		return (0);
 	return (1);
 }
@@ -159,51 +169,58 @@ int	push_direction(t_path *path)
 		return (1);
 }
 
-void	check_path(char **av, t_path *path)
+void	change_pos(t_track *track, t_path *path)
 {
-	t_track track;
-	int		impossible;
+	t_track *tmp;
 
-	impossible = 0;
-	
-	path->data = create_tab(av, path->data);
-	init_path(path);
-	add_empty(&track, path->pos_row, path->pos_column);
-	printf("my sart i = %d startj = %d\n", path->pos_row, path->pos_column);
-	print_lst(&track);
-	while (path->data[path->pos_row][path->pos_column] != 'E' || !impossible)
-	{
-		if (push_direction(path))
-			{
-				add_track(&track, path->pos_row, path->pos_column);
-				path->data[path->pos_row][path->pos_column] = '1';
-				path->pos_row = path->pos_row + path->mov_row;
-				path->pos_column = path->pos_column + path->mov_column;
-				print_lst(&track);
-			}
-		else
-			break;
-	}
-	printf("my data = %c\n", path->data[0][4]);
+	tmp = track;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	path->pos_row = tmp->row;
+	path->pos_column = tmp->column;
 }
 
+int	check_path(char **av, t_path *path, t_asset *check)
+{
+	t_track *track;
 
+	track = NULL;
+	path->data = create_tab(av, path->data);
+	init_path(path);
+	track = add_empty(&track, path->pos_row, path->pos_column);
+	while (path->data[path->pos_row][path->pos_column] != 'E' && !check->path)
+	{
+		if (push_direction(path))
+		{
+			add_track(track, path->pos_row, path->pos_column);
+			path->data[path->pos_row][path->pos_column] = 'V';
+			path->pos_row = path->pos_row + path->mov_row;
+			path->pos_column = path->pos_column + path->mov_column;
+			if (path->data[path->pos_row][path->pos_column] == 'C')
+					path->cnt_coins--;
+			// printf("push direction worked\n");//
+			// ft_printdbl(path->data, path->pos_row, path->pos_column);//
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			}
+		else
+		{
+			path->data[path->pos_row][path->pos_column] = '1';
+			change_pos(track, path);
+			if (track->next == NULL)
+				check->path = 1;
+			else
+				supp_track(track);
+			// printf("push_direction do not fund any direction possible and coins = %d\n", path->cnt_coins);//
+			// ft_printdbl(path->data, path->pos_row, path->pos_column);//
+		}
+	}
+	free_lst(&track);
+	ft_free(path->data);
+	if (check->path == 0)
+		return (1);
+	else
+		return (0);
+}
 
 int	extension_check(char **av, char *extention)
 {
@@ -212,8 +229,9 @@ int	extension_check(char **av, char *extention)
 
 	j = 0;
 	i = ft_strlen(av[1]);
+	printf ("my i = %d and ext = %ld\n", i, ft_strlen(extention));
 	i = i - ft_strlen(extention);
-	if (i == 0)
+	if (i == 0 || av[1][i - 1] == '/')
 		return (0);
 	while (av[1][i])
 	{
@@ -288,6 +306,7 @@ int	check_error(char **av, t_asset *check, t_map *map, t_path *path)
 	check -> line = 1;
 	check -> rect = 1;
 	check -> img = 1;
+	check -> path = 0;
 	if (!extension_check(av, EXTENSION))
 	{
 		error_extension();
@@ -299,12 +318,14 @@ int	check_error(char **av, t_asset *check, t_map *map, t_path *path)
 		error_extension();
 		return (0);
 	}
-	if (!check_map(map -> data, check))
+	if (!check_map(map -> data, check) || (!check_path(av, path, check)))
 	{
 		error_map(check);
 		ft_free(map -> data);
 		return (0);
 	}
-	check_path(av, path);
+	// if (!check_path(av, path))
+	// 	printf("my map is impossible\n");
+	// check_path(av, path);
 	return (1);
 }
