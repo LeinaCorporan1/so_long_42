@@ -6,7 +6,7 @@
 #    By: lcorpora <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 18:26:25 by lcorpora          #+#    #+#              #
-#    Updated: 2022/06/10 18:26:27 by lcorpora         ###   ########.fr        #
+#    Updated: 2022/06/21 11:31:45 by lcorpora         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,10 @@ SRCS		=	src/so_long.c \
 				src/init.c \
 				src/destroy.c \
 				src/check_error.c \
-				src/msg.c
+				src/msg.c \
+				src/check_path.c \
+				src/check_path_utils.c \
+				src/track_utils.c
 
 OBJS		=	$(SRCS:.c=.o)
 
@@ -42,6 +45,7 @@ $(NAME)		:	$(OBJS)
 all			:	$(NAME)
 
 clean		:
+	@make -C $(LIBFT) clean
 	@make -C $(MLX_DIR) clean
 	@$(RM) $(OBJS)
 

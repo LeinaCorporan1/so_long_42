@@ -40,6 +40,7 @@ typedef struct s_asset
 	int	rect;
 	int	img;
 	int	path;
+	int	intrud;
 }	t_asset;
 
 typedef struct s_img
@@ -70,22 +71,22 @@ typedef struct s_map
 typedef struct s_track
 {
 	struct s_track	*prev;
-	int		row;
-	int		column;
-	struct s_track *next;
-} t_track;
+	int				row;
+	int				column;
+	struct s_track	*next;
+}	t_track;
 
 typedef struct s_path
 {
-	int	exit_column;
-	int	exit_row;
-	int	pos_column;
-	int	pos_row;
-	int	coin_column;
-	int	coin_row;
-	int cnt_coins;
-	int	mov_column;
-	int	mov_row;
+	int		exit_column;
+	int		exit_row;
+	int		pos_column;
+	int		pos_row;
+	int		coin_column;
+	int		coin_row;
+	int		cnt_coins;
+	int		mov_column;
+	int		mov_row;
 	char	**data;
 }	t_path;
 
@@ -133,4 +134,12 @@ void	error_map(t_asset	*check);
 void	error_extension(void);
 void	move_msg(int move);
 
+int		check_path(char **av, t_path *path, t_asset *check);
+void	change_pos(t_track *track, t_path *path);
+void	found_track(t_track *track, t_path *path);
+void	err_track(t_track *track, t_path *path, t_asset *check);
+void	supp_track(t_track *track);
+t_track	*add_empty(t_track **track, int data_row, int data_column);
+void	add_track(t_track *track, int data_row, int data_column);
+void	free_lst(t_track **track);
 #endif
